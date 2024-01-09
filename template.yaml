@@ -158,19 +158,9 @@ Resources:
             # Install unzip and JDK:
             sudo apt install unzip default-jdk-headless -y
 
-            # # Download and install NodeJs 20 runtime:
-            # curl -sL https://deb.nodesource.com/setup_20.x | sudo -E bash -
-            # sudo apt install nodejs -y
-            # # Create a symlink named nodejs20.x pointing to the node executable
-            # sudo ln -s /usr/bin/node /usr/bin/nodejs20.x
-            
             # Download and install Greengrass software:
             curl -s https://d2s8p88vqu9w66.cloudfront.net/releases/greengrass-nucleus-latest.zip > greengrass-nucleus-latest.zip && unzip greengrass-nucleus-latest.zip -d GreengrassInstaller
             sudo -E java -Droot="/greengrass/v2" -Dlog.store=FILE -jar ./GreengrassInstaller/lib/Greengrass.jar --aws-region ${AWS::Region} --thing-name ${AppName}-thing --thing-group-name ${ThingGroup} --component-default-user ggc_user:ggc_group --provision true --setup-system-service true --deploy-dev-tools true
-            
-            # # Modify GRUB configuration to support cgroups v1 for Greengrass containerized Lambda functions:
-            # echo 'GRUB_CMDLINE_LINUX="cgroup_enable=memory cgroup_memory=1 systemd.unified_cgroup_hierarchy=0"' >> /etc/default/grub
-            # sudo update-grub
             
             # Reboot the instance:
             sudo reboot

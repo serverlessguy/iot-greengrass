@@ -8,7 +8,6 @@
   pip3 install git+https://github.com/aws-greengrass/aws-greengrass-gdk-cli.git@v1.6.1
   ```
   - Run `gdk --version` to check if the GDK CLI is successfully installed.
-<!-- 1. [AWS SAM CLI](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/install-sam-cli.html) -->
 
 ## Installation
 
@@ -41,9 +40,7 @@ Here is an overview of what this CloudFormation stack provisions:
     - UserData script:
       - Update/upgrade installed packages
       - Install unzip and JDK
-      <!-- - Download and install NodeJs 20 runtime (for Lambda Function component) -->
       - Download and install Greengrass
-      <!-- - Modify GRUB configuration to support cgroups v1 for Greengrass containerized Lambda functions -->
       - Reboot instance
   - IoT Greengrass Deployment to configure the aws.greengrass.Nucleus JVM options to optimize for a low memory device and aws.greengrass.LogManager to configure CloudWatch logging.
 2. Query the output from the CloudFormation stack:
@@ -119,6 +116,10 @@ aws greengrassv2 create-deployment --cli-input-json file://deployment.json
 sudo tail -n 50 -F /greengrass/v2/logs/com.example.LocalPubSub.log
 ```
 
+### Create IoTPubSub Component
+
+### Deploy IoTPubSub Component
+
 ### MQTT Test
 
 1. From the [MQTT test client](https://us-east-1.console.aws.amazon.com/iot/home?region=us-east-1#/test) in the AWS IoT Management Console, subscribe to all topics using #.
@@ -137,62 +138,3 @@ sudo tail -n 50 -F /greengrass/v2/logs/greengrass.log
 ```
 sudo tail -n 50 -F /greengrass/v2/logs/{COMPONENT_NAME}.log
 ```
-
-## Required for Dynamic Thing Groups
-
-Configure IoT Fleet Indexing through the AWS CLI or Management Console.
-- AWS CLI: 
-```
-aws iot update-indexing-configuration --thing-indexing-configuration thingIndexingMode=REGISTRY_AND_SHADOW,thingConnectivityIndexingMode=STATUS
-```
-- AWS Management Console: AWS Iot > Settings > [Fleet indexing](https://us-east-1.console.aws.amazon.com/iot/home?region=us-east-1#/settings/indexing)
-
-## Old
-
-### Create Lambda Function
-
-1. Change to the "iot-greengrass/lambda-function" directory:
-```
-cd lambda-function
-```
-2. Build the Lambda function with all dependencies by using AWS SAM:
-```
-sam build
-```
-3. Deploy the Lambda function to AWS:
-```
-sam deploy --guided
-```
-
-```
-Example SAM Deploy:
-Stack Name [sam-app]: *demo-greengrass-function*
-AWS Region [us-east-1]:          
-Parameter AppName [demo-greengrass]: 
-Parameter IoTResponseTopic [demo-greengrass/response]: 
-#Shows you resources changes to be deployed and require a 'Y' to initiate deploy
-Confirm changes before deploy [y/N]: N
-#SAM needs permission to be able to create roles to connect to the resources in your template
-Allow SAM CLI IAM role creation [Y/n]: Y
-#Preserves the state of previously provisioned resources when an operation fails
-Disable rollback [y/N]: N
-Save arguments to configuration file [Y/n]: Y
-SAM configuration file [samconfig.toml]: 
-SAM configuration environment [default]:
-```
-
-### Create Greengrass Lambda Component
-
-1. Documentation: [Import a Lambda function as a component](https://docs.aws.amazon.com/greengrass/v2/developerguide/import-lambda-function-cli.html)
-2. Change to the "iot-greengrass/lambda-function-component" directory:
-```
-cd ../lambda-function-component
-```
-3. Update the "lambda-config.json" configuration file
-  - Update "lambdaArn" to match the LambdaVersionArn from the SAM deploy CloudFormation output. You must specify an ARN that includes the version of the function. You can't use version aliases like $LATEST.
-  - Update the "AWS_REGION" environment variable to match the region where this demo is being deployed (eg: us-east-1).
-4. Create the Greengrass Lambda function component:
-```
-aws greengrassv2 create-component-version --cli-input-json file://lambda-config.json
-```
-5. Go to the [Greengrass Components console](https://us-east-1.console.aws.amazon.com/iot/home?region=us-east-1#/greengrass/v2/components) to verify the new Lambda function component is in the DEPLOYABLE status.
