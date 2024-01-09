@@ -41,7 +41,7 @@ aws cloudformation deploy --template-file template.yaml --stack-name demo-greeng
           * Install unzip and JDK
           * Download and install Greengrass
           * Reboot instance
-* IoT Greengrass Deployment to configure the aws.greengrass.Nucleus JVM options to optimize for a low memory device and aws.greengrass.LogManager to configure CloudWatch logging.
+  * IoT Greengrass Deployment to configure the aws.greengrass.Nucleus JVM options to optimize for a low memory device and aws.greengrass.LogManager to configure CloudWatch logging.
 2. Query the output from the CloudFormation stack:
 ```
 aws cloudformation describe-stacks --stack-name demo-greengrass-stack --query 'Stacks[0].Outputs'
