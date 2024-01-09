@@ -28,19 +28,19 @@ aws cloudformation deploy --template-file iam.yaml --stack-name greengrass-v2-to
 ```
 aws cloudformation deploy --template-file template.yaml --stack-name demo-greengrass-stack --tags AppName=demo-greengrass --parameter-overrides MyIp=0.0.0.0/32 --capabilities CAPABILITY_IAM
 ```
-Here is an overview of what this CloudFormation stack provisions:
-* S3 bucket and IAM Policy to access S3.
-* IAM Policy that allows Greengrass devices to provision themselves.
-* IoT Thing Group. When Greengrass is installed on a device, it associates the device with this Thing Group.
-* EC2 Instance (Debian Linux, arm64, t4g.nano) that acts as an IoT Greengrass device.
-    * Instance role and profile
-    * Key pair (rsa, ppk)
-    * Security Group with SSH access
-    * UserData script:
-        * Update/upgrade installed packages
-        * Install unzip and JDK
-        * Download and install Greengrass
-        * Reboot instance
+  Here is an overview of what this CloudFormation stack provisions:
+  * S3 bucket and IAM Policy to access S3.
+  * IAM Policy that allows Greengrass devices to provision themselves.
+  * IoT Thing Group. When Greengrass is installed on a device, it associates the device with this Thing Group.
+  * EC2 Instance (Debian Linux, arm64, t4g.nano) that acts as an IoT Greengrass device.
+      * Instance role and profile
+      * Key pair (rsa, ppk)
+      * Security Group with SSH access
+      * UserData script:
+          * Update/upgrade installed packages
+          * Install unzip and JDK
+          * Download and install Greengrass
+          * Reboot instance
 * IoT Greengrass Deployment to configure the aws.greengrass.Nucleus JVM options to optimize for a low memory device and aws.greengrass.LogManager to configure CloudWatch logging.
 2. Query the output from the CloudFormation stack:
 ```
