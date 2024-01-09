@@ -3,8 +3,11 @@
 1. [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html) installed and configured with access to an AWS Account.
 1. [Python3](https://www.python.org/downloads/) and [pip](https://pip.pypa.io/en/latest/installation/). The most recent version of Python includes pip.
 1. [Greengrass Development Kit (GDK) CLI](https://github.com/aws-greengrass/aws-greengrass-gdk-cli)
-  - To install the latest version of the GDK CLI: `pip3 install git+https://github.com/aws-greengrass/aws-greengrass-gdk-cli.git@v1.6.1`
-  - Run `gdk --help` or `gdk --version` to check if the GDK CLI is successfully installed.
+  - To install the GDK CLI:
+  ```
+  pip3 install git+https://github.com/aws-greengrass/aws-greengrass-gdk-cli.git@v1.6.1
+  ```
+  - Run `gdk --version` to check if the GDK CLI is successfully installed.
 <!-- 1. [AWS SAM CLI](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/install-sam-cli.html) -->
 
 ## Installation
@@ -22,16 +25,16 @@ aws cloudformation deploy --template-file iam.yaml --stack-name greengrass-v2-to
 
 ### Setup Greengrass Device
 
-1. Deploy the "template.yaml":
+1. Deploy the "template.yaml". Update MyIp to match your public IPv4 address.
 ```
 aws cloudformation deploy --template-file template.yaml --stack-name demo-greengrass-stack --tags AppName=demo-greengrass --parameter-overrides MyIp=0.0.0.0/32 --capabilities CAPABILITY_IAM
 ```
 Here is an overview of what this CloudFormation stack provisions:
 
+  - S3 bucket and IAM Policy to access S3.
   - IAM Policy that allows Greengrass devices to provision themselves.
   - IoT Thing Group. When Greengrass is installed on a device, it associates the device with this Thing Group.
   - EC2 Instance (Debian Linux, arm64, t4g.nano) that acts as an IoT Greengrass device.
-    - S3 bucket
     - Instance role and profile
     - Key pair (rsa, ppk)
     - Security Group with SSH access
@@ -66,9 +69,9 @@ aws cloudformation describe-stacks --stack-name demo-greengrass-stack --query 'S
 
 ### Create LocalPubSub Component
 
-1. Change to the "iot-greengrass/local-pubsub" directory:
+1. Change to the "iot-greengrass/LocalPubSub" directory:
 ```
-cd local-pubsub
+cd LocalPubSub
 ```
 2. Install dependencies (eg: awsiotsdk) locally and package with zip file before deploying to Greengrass device:
 ```

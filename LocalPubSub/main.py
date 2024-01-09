@@ -2,7 +2,7 @@ import sys
 import traceback
 
 from awsiot.greengrasscoreipc.clientv2 import GreengrassCoreIPCClientV2
-from localpubsub import publisher, subscriber
+from src import publisher, subscriber
 
 def main():
     args = sys.argv[1:]

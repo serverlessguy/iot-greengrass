@@ -1,10 +1,13 @@
 {
   "component": {
-    "com.example.LocalPubSub": {
+    "com.example.IotPubSub": {
       "author": "Amazon",
       "version": "NEXT_PATCH",
       "build": {
-        "build_system": "zip"
+        "build_system": "zip",
+        "options": {
+          "zip_name": ""
+        }
       },
       "publish": {
         "bucket": "demo-greengrass",
