@@ -1,12 +1,13 @@
 {
   "component": {
-    "com.example.IotPubSub": {
+    "com.example.IoTPubSub": {
       "author": "Amazon",
       "version": "NEXT_PATCH",
       "build": {
         "build_system": "zip",
         "options": {
-          "zip_name": ""
+          "zip_name": "",
+          "excludes": ["**/deployment.json"]
         }
       },
       "publish": {

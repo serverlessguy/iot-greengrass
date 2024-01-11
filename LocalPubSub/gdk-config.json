@@ -6,7 +6,8 @@
       "build": {
         "build_system": "zip",
         "options": {
-          "zip_name": ""
+          "zip_name": "",
+          "excludes": ["**/deployment.json"]
         }
       },
       "publish": {

@@ -93,31 +93,71 @@ gdk component publish
 
 ### Deploy LocalPubSub Component
 
-1. Change to the "iot-greengrass" directory:
-```
-cd ..
-```
-2. List Greengrass components:
+1. List Greengrass components:
 ```
 aws greengrassv2 list-components
 ```
-3. Copy the componentVersion of the com.example.LocalPubSub (eg: 1.0.0).
-4. Update the "deployment.json" configuration file:
+2. Copy the componentVersion of the com.example.LocalPubSub (eg: 1.0.0).
+3. Update the "deployment.json" configuration file:
     * Update the targetArn to match the ThingGroupARN from the original CloudFormation output. You should only need to update the Region and AccountId.
     * Update the componentVersion of the com.example.LocalPubSub if needed. Refer to the Greengrass components list from a previous step.
-5. Create a new Greengrass Deployment:
+4. Create a new Greengrass Deployment:
 ```
 aws greengrassv2 create-deployment --cli-input-json file://deployment.json
 ```
-6. Monitor the deployment from the IoT [Greengrass Deployment console](https://us-east-1.console.aws.amazon.com/iot/home?region=us-east-1#/greengrass/v2/deployments) to verity it completes successfully.
-7. View com.example.LocalPubSub logs on the EC2 instance:
+5. Monitor the deployment from the IoT [Greengrass Deployment console](https://us-east-1.console.aws.amazon.com/iot/home?region=us-east-1#/greengrass/v2/deployments) to verity it completes successfully.
+6. View com.example.LocalPubSub logs on the EC2 instance:
 ```
 sudo tail -n 50 -F /greengrass/v2/logs/com.example.LocalPubSub.log
 ```
 
 ### Create IoTPubSub Component
 
+1. Change to the "iot-greengrass/IoTPubSub" directory:
+```
+cd ../IoTPubSub
+```
+2. Install dependencies (eg: awsiotsdk) locally and package with zip file before deploying to Greengrass device:
+```
+pip3 install -t ./dependencies awsiotsdk
+```
+3. Note the Run command in the "recipe.yaml" file, it tells Python where to look for dependencies (eg: PYTHONPATH):
+```
+PYTHONPATH={artifacts:decompressedPath}/com.example.IoTPubSub/dependencies
+```
+4. Update the "gdk-config.json" configuration file:
+    * Update the author.
+    * Update the S3 bucket prefix (eg: demo-greengrass). If you deployed the "template.yaml" above, an S3 bucket will already exist (bucket name format: {Bucket-Prefix}-{Region}-{AccountId}), so the `gdk component publish` command below will not need to create a new bucket.
+    * Update the region (eg: us-east-1).
+    * Update the gdk_version (eg: 1.6.1): `gdk --version`
+5. Build the artifacts and recipes of the component:
+```
+gdk component build
+```
+6. Publish a new version of the component in your AWS account:
+```
+gdk component publish
+```
+
 ### Deploy IoTPubSub Component
+
+1. List Greengrass components:
+```
+aws greengrassv2 list-components
+```
+2. Copy the componentVersion of the com.example.IoTPubSub (eg: 1.0.0).
+3. Update the "deployment.json" configuration file:
+    * Update the targetArn to match the ThingGroupARN from the original CloudFormation output. You should only need to update the Region and AccountId.
+    * Update the componentVersion of the com.example.IoTPubSub if needed. Refer to the Greengrass components list from a previous step.
+4. Create a new Greengrass Deployment:
+```
+aws greengrassv2 create-deployment --cli-input-json file://deployment.json
+```
+5. Monitor the deployment from the IoT [Greengrass Deployment console](https://us-east-1.console.aws.amazon.com/iot/home?region=us-east-1#/greengrass/v2/deployments) to verity it completes successfully.
+6. View com.example.IoTPubSub logs on the EC2 instance:
+```
+sudo tail -n 50 -F /greengrass/v2/logs/com.example.IoTPubSub.log
+```
 
 ### MQTT Test
 
