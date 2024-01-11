@@ -9,6 +9,15 @@
     ```
     * Run `gdk --version` to check if the GDK CLI is successfully installed.
 
+## Resources
+
+1. [AWS IoT Greengrass component recipe reference](https://docs.aws.amazon.com/greengrass/v2/developerguide/component-recipe-reference.html)
+1. [AWS IoT Greengrass Development Kit CLI](https://docs.aws.amazon.com/greengrass/v2/developerguide/greengrass-development-kit-cli.html)
+1. [Greengrass Development Kit CLI configuration file](https://docs.aws.amazon.com/greengrass/v2/developerguide/gdk-cli-configuration-file.html)
+1. 
+1. [AWS IoT Device SDK v2 for Python](https://aws.github.io/aws-iot-device-sdk-python-v2/index.html)
+1. [Publish/subscribe AWS IoT Core MQTT messages](https://docs.aws.amazon.com/greengrass/v2/developerguide/ipc-iot-core-mqtt.html)
+
 ## Installation
 
 ### Create GreengrassV2TokenExchangeRole
@@ -47,7 +56,7 @@ aws cloudformation deploy --template-file template.yaml --stack-name demo-greeng
 aws cloudformation describe-stacks --stack-name demo-greengrass-stack --query 'Stacks[0].Outputs'
 ```
 4. Copy the output value ThingGroupARN for later use when deploying the Greengrass Lambda function component.
-5. (Optional) Connect to instance with an SSH client(eg: PuTTy) to confirm Greengrass installation.
+5. Connect to instance with an SSH client (eg: PuTTy) to confirm Greengrass installation.
     * Retrieve the EC2 keypair from the SSM Parameter Store (eg: /ec2/keypair/key-{KeyId}) and create a "keypair.ppk" file with the private key material.
     * PuTTy configuration:
         * Connection > SSH > Auth: Browse to the "keypair.ppk" file.
@@ -64,6 +73,8 @@ aws cloudformation describe-stacks --stack-name demo-greengrass-stack --query 'S
 6. Go to [Greengrass Core Devices](https://us-east-1.console.aws.amazon.com/iot/home?region=us-east-1#/greengrass/v2/cores) in the AWS Management Console to verify that the EC2 instance is registered as a Greengrass device before proceeding with the installation process. It may take a few minutes after the EC2 instance is launched to see it registered as a Greengrass device.
 
 ### Create LocalPubSub Component
+
+This component will publish 10 messages to a local topic named "/topic/demo-greengrass-thing".
 
 1. Change to the "iot-greengrass/LocalPubSub" directory:
 ```
@@ -106,12 +117,14 @@ aws greengrassv2 list-components
 aws greengrassv2 create-deployment --cli-input-json file://deployment.json
 ```
 5. Monitor the deployment from the IoT [Greengrass Deployment console](https://us-east-1.console.aws.amazon.com/iot/home?region=us-east-1#/greengrass/v2/deployments) to verity it completes successfully.
-6. View com.example.LocalPubSub logs on the EC2 instance:
+6. View com.example.LocalPubSub logs on the EC2 instance to verify that the component published 10 messages to a local topic:
 ```
 sudo tail -n 50 -F /greengrass/v2/logs/com.example.LocalPubSub.log
 ```
 
 ### Create IoTPubSub Component
+
+This component will subscribe to an IoT Core topic named "/topic/demo-greengrass-thing" and when a message is received, it will publish a response to another IoT Core topic named topic named "/topic/demo-greengrass-thing/response".
 
 1. Change to the "iot-greengrass/IoTPubSub" directory:
 ```
@@ -159,11 +172,18 @@ aws greengrassv2 create-deployment --cli-input-json file://deployment.json
 sudo tail -n 50 -F /greengrass/v2/logs/com.example.IoTPubSub.log
 ```
 
-### MQTT Test
+### Test the IoTPubSub Component
 
 1. From the [MQTT test client](https://us-east-1.console.aws.amazon.com/iot/home?region=us-east-1#/test) in the AWS IoT Management Console, subscribe to all topics using #.
-2. Publish any message to the topic "demo-greengrass/request".
-3. If everything worked, you should see a message in the "demo-greengrass/response" topic.
+2. Publish any message to the topic "/topic/demo-greengrass-thing".
+3. If everything worked, you should see a response message in the "/topic/demo-greengrass-thing/response" topic.
+```
+{
+  "message": "Received your message",
+  "original": "{\n  \"message\": \"Your original message here\"\n}",
+  "timestamp": 1704989495.495793
+}
+```
 
 ## Monitoring and Debugging the Component
 

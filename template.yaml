@@ -188,7 +188,7 @@ Resources:
           ConfigurationUpdate:
             # Configure Greengrass LogManager to upload all logs to CloudWatch every 60 seconds.
             # DEBUG, INFO, WARN, ERROR
-            Merge: '{"logsUploaderConfiguration":{"systemLogsConfiguration":{"uploadToCloudWatch":"true","minimumLogLevel":"DEBUG"},"componentLogsConfigurationMap":{"com.example.LocalPubSub":{"minimumLogLevel":"DEBUG"}}},"periodicUploadIntervalSec":"60"}'
+            Merge: '{"logsUploaderConfiguration":{"systemLogsConfiguration":{"uploadToCloudWatch":"true","minimumLogLevel":"INFO"},"componentLogsConfigurationMap":{"com.example.LocalPubSub":{"minimumLogLevel":"INFO"},"com.example.IoTPubSub":{"minimumLogLevel":"INFO"}}},"periodicUploadIntervalSec":"60"}'
 
 Outputs:
   ThingGroupARN:
