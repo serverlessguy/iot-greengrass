@@ -14,7 +14,6 @@
 1. [AWS IoT Greengrass component recipe reference](https://docs.aws.amazon.com/greengrass/v2/developerguide/component-recipe-reference.html)
 1. [AWS IoT Greengrass Development Kit CLI](https://docs.aws.amazon.com/greengrass/v2/developerguide/greengrass-development-kit-cli.html)
 1. [Greengrass Development Kit CLI configuration file](https://docs.aws.amazon.com/greengrass/v2/developerguide/gdk-cli-configuration-file.html)
-1. 
 1. [AWS IoT Device SDK v2 for Python](https://aws.github.io/aws-iot-device-sdk-python-v2/index.html)
 1. [Publish/subscribe AWS IoT Core MQTT messages](https://docs.aws.amazon.com/greengrass/v2/developerguide/ipc-iot-core-mqtt.html)
 
