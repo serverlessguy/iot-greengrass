@@ -1,3 +1,23 @@
+# A Guide to Deploying and Integrating AWS IoT Greengrass for Local and Cloud-Based Device Communication
+
+**WARNING: THIS SOLUTION IS AN EXAMPLE ONLY AND NO SUPPORT IS PROVIDED!**
+
+## Overview
+
+This solution provides a comprehensive approach for setting up and deploying components using AWS IoT Greengrass, demonstrating advanced capabilities in IoT device management and communication. The overall objective is to establish a demo IoT environment where devices can interact both locally and with the AWS cloud.
+
+Start by ensuring all prerequisites are in place, including the AWS CLI, Python3 with pip, and the Greengrass Development Kit (GDK) CLI. This foundational setup is crucial for smooth deployment and operation of the Greengrass components.
+
+The core of the solution involves two primary components: LocalPubSub and IoTPubSub
+
+The LocalPubSub component is designed to publish messages to a local Greengrass topic, showcasing the capability of local device-to-device communication without the need for cloud intervention. This is particularly useful in scenarios where low latency or local network constraints are a consideration.
+
+The IoTPubSub component takes the solution a step further by integrating with AWS IoT Core. This component subscribes to a specific IoT Core topic, and upon receiving a message, it publishes a response to another topic in the IoT Core. This demonstrates a seamless interaction between the local Greengrass environment and the AWS cloud, enabling devices to send data to the cloud for processing, storage, or further action.
+
+The deployment process involves setting up an EC2 instance as an IoT Greengrass device, configuring necessary IAM roles and policies, and using AWS CloudFormation for resource management. Once the components are deployed, the solution provides methods for testing and monitoring their performance. This includes sending messages with the LocalPubSub component and observing the interactions between the IoTPubSub component and the AWS IoT Core. Monitoring and debugging are facilitated through logs, allowing for real-time tracking of the system’s behavior and quick troubleshooting of any issues.
+
+Overall, this solution not only demonstrates the technical setup of an AWS IoT Greengrass device and components but also highlights the versatile capabilities of IoT systems in handling both local and cloud-based interactions.
+
 ## Prerequisites
 
 1. [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html) installed and configured with access to an AWS Account.
