@@ -1,4 +1,4 @@
-# A Guide to Deploying and Integrating AWS IoT Greengrass for Local and Cloud-Based Device Communication
+# A Guide to Deploying AWS IoT Greengrass v2 for Local and Cloud-Based Device Communication
 
 **WARNING: THIS SOLUTION IS AN EXAMPLE ONLY AND NO SUPPORT IS PROVIDED!**
 
