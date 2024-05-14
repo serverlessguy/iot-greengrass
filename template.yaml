@@ -46,6 +46,10 @@ Resources:
               - 's3:PutObject'
               - 's3:PutObjectAcl'
             Resource: !Sub ${S3Bucket.Arn}/*
+          - Effect: Allow
+            Action:
+              - 's3:GetBucketLocation'
+            Resource: !Sub ${S3Bucket.Arn}
 
   ####################################################################################
   # Create an IAM Policy that allows Greengrass devices to provision themselves.
